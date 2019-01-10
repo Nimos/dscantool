@@ -44,7 +44,7 @@ def _parse_dscan(request, data):
             shipCount[line[0]] += 1
 
         # Detect solar system
-        if not solarSystem and line[1] and line[0] in ["11","12","13","14","15","2015","2063","2233","3799","35825","35832","35833","35835","45036","47513"]:
+        if not solarSystem and line[1] and line[0] in ["11","12","13","14","15","2015","2063","2233","3799","35825","35832","35833","35835","45036","47513","1529","1531","4024","3872","3871","3796"]:
             if re.match(r'[A-z0-9\-]+ -', line[1]):
                 solarSystem = line[1].split(" -")[0]
             elif re.match(r'[A-z0-9\-]+ [XVI]+', line[1]):
