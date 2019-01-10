@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/css?family=Bitter|Roboto:400,700|Roboto+Mono" rel="stylesheet">
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
+              integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
+              crossorigin="anonymous">
+        {% if debug %}
+            <link href="{% static "css/main.less" %}" rel="stylesheet/less">
+        {% else %}
+            <link href="{% static "css/main-compiled.css" %}" rel="stylesheet">
+        {% endif %}
+        <title>{% block title %}Nimos' Intel Tool{% endblock title %}</title>
+    </head>
+    <body>
+        {% block content %}
+        {% endblock content %}
+
+
+        <div class="footer text-shadow">
+            <div class="container">
+                <span>Brought to you by Nimos Endashi • <a href="/about/">All Eve Related Materials are property of CCP Games</a> • Released under AGPL3 • Github</span>
+            </div>
+        </div>
+
+        {% if debug %}
+            <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.8.1/less.min.js" ></script>
+        {% endif %}
+        <script src="https://code.jquery.com/jquery-latest.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        {% block scripts %}
+        {% endblock %}
+    </body>
+</html> 

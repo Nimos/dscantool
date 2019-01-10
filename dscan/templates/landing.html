@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-shadow">Nimos' Intel Tool</h1>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-sm-8">
+                {% if error %}
+                    <div class="alert alert-danger">{{error}}</div>
+                {% endif %}
+                <span>Paste Anything</span>
+                <form method="POST" action="/parse">
+                    {% csrf_token %}
+                    <textarea name="data" class="textarea-dscan{% if error %} textarea-danger{% endif %}"></textarea>
+                    <button type="submit" class="btn btn-primary btn-lg submit-button">Scan</button>
+                </form>
+            </div>
+            <div class="col-sm-4">
+                <h4 class="text-shadow">What's this?</h4>
+                <p class="text-shadow">This is an intel tool. There's many like it, but this one is mine and it has a dark theme.</p>
+                <p class="text-shadow">Currently it supports parsing of both local scans and dscans.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+    <script>
+        $('button').click(function (event) {
+            $('.content').addClass('loading')
+        })
+    </script>
+{% endblock scripts %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <div class="navbar navbar-inverse">
+                <span><a href="/">Home</a> &gt; Directional Scan <small>[{{token}}] / Created {{created|date:"M d, Y - H:i:s"}}</small></span>
+                <span>Solar System: {% if solarSystem %}{{solarSystem}}{%else%}Unknown{%endif%}</span>
+            </div>
+            <div class="container-fluid" style="padding: 0">
+                {% for category, ships, groups in data %}
+                <div class="row no-gutters">
+                    <div class="darkbox box-shadow result-container col-sm-8">
+                        <div class="navbar table-header">
+                            {{category}} <small>({{ships|length}} total)</small>
+                        </div>
+                        <table class="dscan-table table table-dark table-sm">
+                            {% for ship in ships %}
+                            <tr class="ship" data-group="{{ship.group}}">
+                                <td class="number">{{ship.count}}</td><td class="name">{{ship.name}}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="darkbox box-shadow result-container col-sm-4">
+                        <div class="navbar table-header">
+                            &nbsp;
+                        </div>
+                        <table class="dscan-table table table-dark table-sm">
+                            {% for group in groups %}
+                                <tr class="group" data-group="{{group.id}}">
+                                    <td class="number">{{group.count}}</td><td class="name">{{group.name}}</td>
+                                </tr>
+                            {% endfor %}        
+                        </table>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block scripts %}
+
+<script>
+    $('tr.ship').hover(function () {
+        let group = $(this).data('group');
+        $('.group[data-group='+group+']').addClass('hover')
+    }, function () {
+        let group = $(this).data('group');
+        $('.group[data-group='+group+']').removeClass('hover')
+    })
+
+    $('tr.group').hover(function () {
+        let group = $(this).data('group');
+        $('.ship[data-group='+group+']').addClass('hover')
+    }, function () {
+        let group = $(this).data('group');
+        $('.ship[data-group='+group+']').removeClass('hover')
+    })
+</script>
+
+{% endblock scripts %}

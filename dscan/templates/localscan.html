@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <div class="navbar navbar-inverse">
+                <span><a href="/">Home</a> &gt; Local Scan <small>[{{token}}] / Created {{created|date:"M d, Y - H:i:s"}}</small></span>
+            </div>
+            <div class="container-fluid" style="padding: 0">
+                <div class="row no-gutters">
+                    <div class="col-sm-4">
+                        <div class="darkbox box-shadow result-container">
+                            <div class="navbar table-header">
+                                Alliances
+                            </div>
+                            <table class="dscan-table table table-dark table-sm">
+                                {% for alliance in data.alliances %}
+                                <tr class="ship" data-alliance="{{alliance.id}}">
+                                    <td class="ticker"><small>[{{alliance.ticker}}]</small></td>
+                                    <td class=""> {{alliance.name}}</td>
+                                    <td class="number">{{alliance.count}}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="darkbox box-shadow result-container">
+                            <div class="navbar table-header">
+                                Unaffiliated Corporations
+                            </div>
+                            <table class="dscan-table table table-dark table-sm">
+                                {% for corp in data.corps %}
+                                    {% if corp.alliance == "-1" %}
+                                        <tr class="group" data-alliance="{{corp.alliance}}" data-corporationID="{{corp.id}}">
+                                            <td class="ticker"><small>[{{corp.ticker}}]</small></td>
+                                            <td class="">{{corp.name}}</td>
+                                            <td class="number">{{corp.count}}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}        
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="darkbox box-shadow result-container">
+                            <div class="navbar table-header">
+                                Alliance Corporations
+                            </div>
+                            <table class="dscan-table table table-dark table-sm">
+                                {% for corp in data.corps %}
+                                    {% if corp.alliance != "-1" %}
+                                        <tr class="group" data-alliance="{{corp.alliance}}" data-corporationID="{{corp.id}}">
+                                            <td class="ticker"><small>[{{corp.ticker}}]</small></td>
+                                            <td class="">{{corp.name}}</td>
+                                            <td class="number">{{corp.count}}</td>
+                                        </tr>
+                                    {% endif %}     
+                                {% endfor %}   
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block scripts %}
+
+<script>
+    $('tr.ship').hover(function () {
+        let alliance = $(this).data('alliance');
+        $('.group[data-alliance='+alliance+']').addClass('hover')
+    }, function () {
+        let alliance = $(this).data('alliance');
+        $('.group[data-alliance='+alliance+']').removeClass('hover')
+    })
+
+    $('tr.group').hover(function () {
+        let alliance = $(this).data('alliance');
+        $('.ship[data-alliance='+alliance+']').addClass('hover')
+    }, function () {
+        let alliance = $(this).data('alliance');
+        $('.ship[data-alliance='+alliance+']').removeClass('hover')
+    })
+</script>
+
+{% endblock scripts %}
