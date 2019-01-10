@@ -31,7 +31,7 @@
                             </div>
                             <table class="dscan-table table table-dark table-sm">
                                 {% for corp in data.corps %}
-                                    {% if corp.alliance == "-1" %}
+                                    {% if corp.alliance == -1 %}
                                         <tr class="group" data-alliance="{{corp.alliance}}" data-corporationID="{{corp.id}}">
                                             <td class="ticker"><small>[{{corp.ticker}}]</small></td>
                                             <td class="">{{corp.name}}</td>
@@ -49,7 +49,7 @@
                             </div>
                             <table class="dscan-table table table-dark table-sm">
                                 {% for corp in data.corps %}
-                                    {% if corp.alliance != "-1" %}
+                                    {% if corp.alliance != -1 %}
                                         <tr class="group" data-alliance="{{corp.alliance}}" data-corporationID="{{corp.id}}">
                                             <td class="ticker"><small>[{{corp.ticker}}]</small></td>
                                             <td class="">{{corp.name}}</td>
