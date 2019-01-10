@@ -203,7 +203,7 @@ def _parse_local(request, data):
 
     token = token_urlsafe(6)
     while Scan.objects.filter(token=token).exists():
-        token = token_urlsafe(6)
+        token = token_urlsafe(6)[:6]
 
     savedScan = Scan(token=token, data=json.dumps(result), type=Scan.LOCALSCAN)
     savedScan.save()
