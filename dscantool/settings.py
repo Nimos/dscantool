@@ -135,7 +135,7 @@ DSCAN_CATEGORIES = {
         "groups": []
     },
     "Misc.": {
-        "categories": [2, 8, 18, 46],
+        "categories": [2, 8, 3],
         "groups": []
     }
 }
