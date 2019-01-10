@@ -120,9 +120,12 @@ a:hover {
 
 .table {
     margin-bottom: 0;
-    /*table-layout: fixed;*/
+    table-layout: fixed;
+    overflow-wrap: normal;
+    
     td {
         vertical-align: middle;
+        overflow: hidden;
     }
 
     tr:hover, .hover {
@@ -131,7 +134,6 @@ a:hover {
 
     background-color: @bgPrimary;
 }
-
 
 td.number {
     width: 10%;
