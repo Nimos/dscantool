@@ -167,17 +167,35 @@ def _parse_local(request, data):
 
 
     # Get names and tickers
-
     result = {"corps": [], "alliances": []}
-    for corpID in corps:
-        corporation, created = Corporation.objects.get_or_create(corporationID=corpID)
+    
+    # Get cached names from DB
+    corpIDs = list(corps.keys())
+    cachedCorps = Corporation.objects.filter(corporationID__in=corpIDs)
 
-        if created:
-            corpInfo = esiRequest('/corporations/'+str(corpID)+'/')
+    for corp in cachedCorps:
+        corps[corp.corporationID]["name"] = corp.name
+        corps[corp.corporationID]["ticker"] = corp.ticker
+        corps[corp.corporationID]["id"] = corp.corporationID
 
-            corporation.ticker = corpInfo["ticker"]
-            corporation.name = corpInfo["name"]
-            corporation.save()
+        result["corps"].append(corps[corp.corporationID])
+
+
+    # Check which corps we need to get from ESI
+    cachedIDs = set(cachedCorps.values_list("corporationID", flat=True))
+    missingIDs = list(set(corpIDs)-cachedIDs)
+
+
+    # Get missing corps and save
+    newCorpCache = []
+    for corpID in missingIDs:
+        corporation = Corporation(corporationID=corpID)
+
+        corpInfo = esiRequest('/corporations/'+str(corpID)+'/')
+
+        corporation.ticker = corpInfo["ticker"]
+        corporation.name = corpInfo["name"]
+        newCorpCache.append(corporation)
 
         corps[corpID]["name"] = corporation.name
         corps[corpID]["ticker"] = corporation.ticker
@@ -185,20 +203,41 @@ def _parse_local(request, data):
 
         result["corps"].append(corps[corpID])
 
-    for allianceID in alliances:
+    Corporation.objects.bulk_create(newCorpCache)
+
+
+    # Same thing for alliances
+    
+    # Get cached alliances from DB
+    allianceIDs = list(alliances.keys())
+    cachedAlliances = Alliance.objects.filter(allianceID__in=allianceIDs)
+
+    for alliance in cachedAlliances:
+        alliances[alliance.allianceID]["name"] = alliance.name
+        alliances[alliance.allianceID]["ticker"] = alliance.ticker
+        alliances[alliance.allianceID]["id"] = alliance.allianceID
+
+        result["alliances"].append(alliances[allianceID])
+
+    # Check which ones are missing
+    cachedIDs = set(cachedAlliances.values_list("allianceID", flat=True))
+    missingIDs = list(set(allianceIDs)-cachedIDs)
+
+    # Get missing alliances from ESI
+    newAllianceCache = []
+    for allianceID in missingIDs:
         if allianceID == "-1":
             alliances[allianceID]["name"] = ""
             alliances[allianceID]["ticker"] = ""
             continue
 
-        alliance, created = Alliance.objects.get_or_create(allianceID=allianceID)
+        alliance = Alliance(allianceID=allianceID)
 
-        if created:
-            allianceInfo = esiRequest('/alliances/'+str(allianceID)+'/')
+        allianceInfo = esiRequest('/alliances/'+str(allianceID)+'/')
 
-            alliance.ticker = allianceInfo["ticker"]
-            alliance.name = allianceInfo["name"]
-            alliance.save()
+        alliance.ticker = allianceInfo["ticker"]
+        alliance.name = allianceInfo["name"]
+        newAllianceCache.append(alliance)
 
         alliances[allianceID]["name"] = alliance.name
         alliances[allianceID]["ticker"] = alliance.ticker
@@ -206,13 +245,20 @@ def _parse_local(request, data):
 
         result["alliances"].append(alliances[allianceID])
 
+    Alliance.objects.bulk_create(newAllianceCache)
+
+
+    # Sort result
     result["alliances"] = sorted(result["alliances"], key=lambda x: x["count"], reverse=True)
     result["corps"] = sorted(result["corps"], key=lambda x: x["count"], reverse=True)
 
+
+    # Generate url token
     token = token_urlsafe(6)[:6]
     while Scan.objects.filter(token=token).exists():
         token = token_urlsafe(6)[:6]
 
+    # Save
     savedScan = Scan(token=token, data=json.dumps(result), type=Scan.LOCALSCAN)
     savedScan.save()
 
