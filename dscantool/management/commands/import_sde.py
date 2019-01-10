@@ -22,13 +22,13 @@ class Command(BaseCommand):
 
         newGroups = []
         try:
-            file = open("eve_data/groupIDs.yaml", encoding="utf8")
+            file = open("eve_data/groupIDs.yaml", encoding="utf-8")
             groups = yaml.load(file)
 
             for g in groups:
                 print(g, end="\r")
                 if (groups[g]["name"].get("en", False)):
-                    newGroups.append(InvGroup(groupID=g, groupName=groups[g]["name"].get("en"), categoryID=groups[g]["categoryID"]))
+                    newGroups.append(InvGroup(groupID=g, groupName=groups[g]["name"].get("en").encode("utf8"), categoryID=groups[g]["categoryID"]))
 
             InvGroup.objects.all().delete()
             InvGroup.objects.bulk_create(newGroups)
@@ -40,13 +40,13 @@ class Command(BaseCommand):
 
         newTypes = []
         try:
-            file = open("eve_data/typeIDs.yaml", encoding="utf8")
+            file = open("eve_data/typeIDs.yaml", encoding="utf-8")
             types = yaml.load(file)
 
             for g in types:
                 print(g, end="\r")
                 if (types[g]["name"].get("en", False)):
-                    newTypes.append(InvType(typeID=g, typeName=types[g]["name"].get("en"), group_id=types[g]["groupID"]))
+                    newTypes.append(InvType(typeID=g, typeName=types[g]["name"].get("en").encode("utf-8"), group_id=types[g]["groupID"]))
 
             InvType.objects.all().delete()
             InvType.objects.bulk_create(newTypes)
