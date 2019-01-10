@@ -121,11 +121,14 @@ a:hover {
 .table {
     margin-bottom: 0;
     table-layout: fixed;
-    overflow-wrap: normal;
     
     td {
         vertical-align: middle;
         overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: right;
+        background-size: contain;
+        white-space: nowrap;
     }
 
     tr:hover, .hover {

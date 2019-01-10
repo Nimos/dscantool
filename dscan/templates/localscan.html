@@ -17,7 +17,7 @@
                                 {% for alliance in data.alliances %}
                                 <tr class="ship" data-alliance="{{alliance.id}}">
                                     <td class="ticker"><small>[{{alliance.ticker}}]</small></td>
-                                    <td class=""> {{alliance.name}}</td>
+                                    <td class="" style="background-image: url('//image.eveonline.com/Alliance/{{alliance.id}}_64.png')"> {{alliance.name}}</td>
                                     <td class="number">{{alliance.count}}</td>
                                 </tr>
                                 {% endfor %}
@@ -34,7 +34,7 @@
                                     {% if corp.alliance == -1 %}
                                         <tr class="group" data-alliance="{{corp.alliance}}" data-corporationID="{{corp.id}}">
                                             <td class="ticker"><small>[{{corp.ticker}}]</small></td>
-                                            <td class="">{{corp.name}}</td>
+                                            <td class="" style="background-image: url('//image.eveonline.com/Corporation/{{corp.id}}_64.png')">{{corp.name}}</td>
                                             <td class="number">{{corp.count}}</td>
                                         </tr>
                                     {% endif %}
@@ -52,7 +52,7 @@
                                     {% if corp.alliance != -1 %}
                                         <tr class="group" data-alliance="{{corp.alliance}}" data-corporationID="{{corp.id}}">
                                             <td class="ticker"><small>[{{corp.ticker}}]</small></td>
-                                            <td class="">{{corp.name}}</td>
+                                            <td class="" style="background-image: url('//image.eveonline.com/Corporation/{{corp.id}}_64.png')">{{corp.name}}</td>
                                             <td class="number">{{corp.count}}</td>
                                         </tr>
                                     {% endif %}     
