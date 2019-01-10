@@ -151,8 +151,7 @@ def _parse_local(request, data):
     corps = {}
     alliances = {}
     for character in affiliations:
-
-        character["alliance_id"] = character.get("alliance_id", "-1")
+        character["alliance_id"] = character.get("alliance_id", -1)
         
         try:
             corps[character["corporation_id"]]["count"] += 1
@@ -217,7 +216,7 @@ def _parse_local(request, data):
         alliances[alliance.allianceID]["ticker"] = alliance.ticker
         alliances[alliance.allianceID]["id"] = alliance.allianceID
 
-        result["alliances"].append(alliances[allianceID])
+        result["alliances"].append(alliances[alliance.allianceID])
 
     # Check which ones are missing
     cachedIDs = set(cachedAlliances.values_list("allianceID", flat=True))
@@ -226,7 +225,7 @@ def _parse_local(request, data):
     # Get missing alliances from ESI
     newAllianceCache = []
     for allianceID in missingIDs:
-        if allianceID == "-1":
+        if allianceID == -1:
             alliances[allianceID]["name"] = ""
             alliances[allianceID]["ticker"] = ""
             continue
