@@ -113,9 +113,9 @@ def _parse_dscan(request, data):
         if categories["ships"].get(category, False):
             result.append((category, categories["ships"][category], categories["groups"][category]))
 
-    token = token_urlsafe(6)
+    token = token_urlsafe(6)[:6]
     while Scan.objects.filter(token=token).exists():
-        token = token_urlsafe(6)
+        token = token_urlsafe(6)[:6]
 
     savedScan = Scan(token=token, data=json.dumps(result), solarSystem=solarSystem, type=Scan.DSCAN)
     savedScan.save()
@@ -201,7 +201,7 @@ def _parse_local(request, data):
     result["alliances"] = sorted(result["alliances"], key=lambda x: x["count"], reverse=True)
     result["corps"] = sorted(result["corps"], key=lambda x: x["count"], reverse=True)
 
-    token = token_urlsafe(6)
+    token = token_urlsafe(6)[:6]
     while Scan.objects.filter(token=token).exists():
         token = token_urlsafe(6)[:6]
 
