@@ -131,13 +131,21 @@ def _parse_local(request, data):
     # Remove empty lines
     data = [x for x in data if x != '']
 
-    ids = esiRequest('/universe/ids/', data)
+    n = 0
+    affiliations = []
+    while 500*n <= len(data):
 
-    if not ids.get("characters", False):
-        return render(request, "landing.html", {"error": "Error: Didn't detect any valid characters in this local."})
+        ids = esiRequest('/universe/ids/', data[500*n:500*(n+1)])
 
-    ids = [c["id"] for c in ids["characters"]]
-    affiliations = esiRequest('/characters/affiliation/', ids)
+        if not ids.get("characters", False):
+            return render(request, "landing.html", {"error": "Error: Didn't detect any valid characters in this local."})
+
+        ids = [c["id"] for c in ids["characters"]]
+        affiliations += esiRequest('/characters/affiliation/', ids)
+
+        n += 1
+
+    print("AFFILIATIONS: ", len(affiliations))
 
     # Count
     corps = {}
