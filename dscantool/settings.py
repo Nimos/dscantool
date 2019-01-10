@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '&flc+xk-b$^)-5@k+si3hn@dnua$o2zaqt%_*%*g46d@)ihrs_'
+SECRET_KEY = '&f8lk5k-b$^)-sdfij8gu9df7g9aa2zagdfh8iooijioukhrs_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['dscan.nimos.ws']
 
 
 # Application definition
@@ -79,10 +79,17 @@ WSGI_APPLICATION = 'dscantool.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dscantool',
+        'USER': 'entosismap',
+        'PASSWORD': 'gugugagagaga',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'init_command': "SET FOREIGN_KEY_CHECKS=0;"
     }
 }
+
+
 
 
 # Password validation
@@ -122,7 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = '/var/www/dscan.nimos.ws/dscan/static/';
 
 # Categories to sort DScans
 DSCAN_CATEGORIES = {
@@ -135,7 +142,7 @@ DSCAN_CATEGORIES = {
         "groups": []
     },
     "Misc.": {
-        "categories": [2, 8, 18, 46],
+        "categories": [2, 8, 3],
         "groups": []
     }
 }
