@@ -2,5 +2,4 @@ Django==2.1.2
 colorama==0.4.1
 termcolor==1.1.0
 pytz==2018.5
-secrets==1.0.2
 PyYAML==3.13
