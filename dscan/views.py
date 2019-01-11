@@ -79,6 +79,7 @@ def _parse_dscan(request, data):
 
     # Sort everything into preset categories
     categories = {"ships": {}, "groups": {}}
+    summary = []
 
     for ship in ships:
         default = True
@@ -95,6 +96,9 @@ def _parse_dscan(request, data):
             categories["ships"]["Ships"][0].append(ship)
             categories["ships"]["Ships"][1] += ship["count"]
 
+        if ship["category"] == 6:
+            summary.append(ship)
+
     for group in groups:
         default = True
         for category in settings.DSCAN_CATEGORIES:           
@@ -109,6 +113,18 @@ def _parse_dscan(request, data):
             categories["groups"]["Ships"].append(group)
 
 
+    # Prepare summary for meta tags
+    othersCount = 0
+    for ship in summary[3:]:
+        othersCount += ship["count"]
+
+    summaryText = ""
+    for ship in summary[0:3]:
+        summaryText += str(ship["count"]) + " " + ship["name"] + "\n"
+    
+    if othersCount > 0:
+        summaryText += "("+str(othersCount)+" more)"
+
     # Prepare data for template
     result = []
     for category in settings.CATEGORY_ORDER:
@@ -119,7 +135,7 @@ def _parse_dscan(request, data):
     while Scan.objects.filter(token=token).exists():
         token = token_urlsafe(6)[:6]
 
-    savedScan = Scan(token=token, data=json.dumps(result), solarSystem=solarSystem, type=Scan.DSCAN)
+    savedScan = Scan(token=token, data=json.dumps(result), solarSystem=solarSystem, type=Scan.DSCAN, summaryText=summaryText)
     savedScan.save()
 
 
@@ -254,13 +270,25 @@ def _parse_local(request, data):
     result["corps"] = sorted(result["corps"], key=lambda x: x["count"], reverse=True)
 
 
+    # Prepare summary for meta tags
+    othersCount = 0
+    for alliance in result["alliances"][3:]:
+        othersCount += alliance["count"]
+
+    summaryText = ""
+    for alliance in result["alliances"][0:3]:
+        summaryText += str(alliance["count"]) + " " + alliance["name"] + "\n"
+    
+    if othersCount > 0:
+        summaryText += "("+str(othersCount)+" more)"
+
     # Generate url token
     token = token_urlsafe(6)[:6]
     while Scan.objects.filter(token=token).exists():
         token = token_urlsafe(6)[:6]
 
     # Save
-    savedScan = Scan(token=token, data=json.dumps(result), type=Scan.LOCALSCAN)
+    savedScan = Scan(token=token, data=json.dumps(result), type=Scan.LOCALSCAN, summaryText=summaryText)
     savedScan.save()
 
 
@@ -278,6 +306,6 @@ def show(request, token):
     scan = get_object_or_404(Scan, token=token)
 
     if scan.type == Scan.DSCAN:
-        return render(request, "dscan.html", {"created": scan.created, "token": token, "solarSystem": scan.solarSystem, "data": json.loads(scan.data)})
+        return render(request, "dscan.html", {"created": scan.created, "token": token, "solarSystem": scan.solarSystem, "data": json.loads(scan.data), "summaryText": scan.summaryText})
     elif scan.type == Scan.LOCALSCAN:
-        return render(request, "localscan.html", {"created": scan.created, "token": token, "data": json.loads(scan.data)})
+        return render(request, "localscan.html", {"created": scan.created, "token": token, "data": json.loads(scan.data), "summaryText": scan.summaryText})
