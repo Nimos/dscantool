@@ -16,6 +16,8 @@
             <link href="{% static "css/main-compiled.css" %}" rel="stylesheet">
         {% endif %}
         <title>{% block title %}Nimos' Intel Tool{% endblock title %}</title>
+        {% block meta %}
+        {% endblock meta %}
     </head>
     <body>
         {% block content %}

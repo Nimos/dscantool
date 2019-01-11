@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 
+{% block meta %}
+    <meta property="og:title" content="Local scan taken at {{created|date:"H:i:s"}}" />
+    <meta property="og:url" content="{{ request.get_full_path }}" />
+    <meta property="og:description" 
+      content="{{summaryText}}" />
+    <meta property="og:site_name" content="Directional Scan" />
+{% endblock meta %}
+
+{% block title %}
+    DScan {{token}} - Nimos' Intel Tools
+{% endblock title %}
+
 {% block content %}
     <div class="container">
         <div class="card">
