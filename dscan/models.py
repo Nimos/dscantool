@@ -8,6 +8,8 @@ class Scan(models.Model):
     solarSystem = models.TextField(null=True)
     data = models.TextField() 
 
+    summaryText = models.TextField(null=True)
+
     DSCAN = 0
     LOCALSCAN = 1
     SCAN_TYPE_CHOICES = (
