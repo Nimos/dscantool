@@ -138,11 +138,11 @@ DSCAN_CATEGORIES = {
         "groups": [883, 485, 547, 1538, 30, 659]
     },
     "Structures": {
-        "categories": [22, 23, 65, 15, 16],
+        "categories": [22, 23, 46, 65, 15, 16],
         "groups": []
     },
     "Misc.": {
-        "categories": [2, 8, 3],
+        "categories": [2, 8, 3, 18, 87, 11],
         "groups": []
     }
 }

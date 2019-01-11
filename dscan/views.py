@@ -85,13 +85,15 @@ def _parse_dscan(request, data):
         for category in settings.DSCAN_CATEGORIES:           
             if ship["group"] in settings.DSCAN_CATEGORIES[category]["groups"] or ship["category"] in settings.DSCAN_CATEGORIES[category]["categories"]:
                 if not categories["ships"].get(category, False):
-                    categories["ships"][category] = []
-                categories["ships"][category].append(ship) 
+                    categories["ships"][category] = [[], 0]
+                categories["ships"][category][0].append(ship) 
+                categories["ships"][category][1] += ship["count"]
                 default = False
         if default:
             if not categories["ships"].get("Ships", False):
-               categories["ships"]["Ships"] = []
-            categories["ships"]["Ships"].append(ship)
+               categories["ships"]["Ships"] = [[], 0]
+            categories["ships"]["Ships"][0].append(ship)
+            categories["ships"]["Ships"][1] += ship["count"]
 
     for group in groups:
         default = True
