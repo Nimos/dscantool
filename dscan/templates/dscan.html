@@ -12,10 +12,10 @@
                 <div class="row no-gutters">
                     <div class="darkbox box-shadow result-container col-sm-8">
                         <div class="navbar table-header">
-                            {{category}} <small>({{ships|length}} total)</small>
+                            {{category}} <small>({{ships.1}} total)</small>
                         </div>
                         <table class="dscan-table table table-dark table-sm">
-                            {% for ship in ships %}
+                            {% for ship in ships.0 %}
                             <tr class="ship" data-group="{{ship.group}}">
                                 <td class="number">{{ship.count}}</td><td class="name">{{ship.name}}</td>
                             </tr>
