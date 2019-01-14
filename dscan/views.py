@@ -37,40 +37,86 @@ def _parse_dscan(request, data):
 
     for line in data:
         line = line.split("\t")
+        try:
+            line[0] = int(line[0])
+        except: 
+            continue
 
         if not shipCount.get(line[0], False):
             shipCount[line[0]] = 1
         else:
             shipCount[line[0]] += 1
 
-        # Detect solar system
-        if not solarSystem and line[1] and line[0] in ["11","12","13","14","15","2015","2063","2233","3799","35825","35832","35833","35835","45036","47513","1529","1531","4024","3872","3871","3796"]:
+        # Detect solar system TODO: rework this mess
+        if not solarSystem and line[1] and line[0] in [11,12,13,14,15,2015,2063,2233,3799,35825,35832,35833,35835,45036,47513,1529,1531,4024,3872,3871,3796]:
             if re.match(r'[A-z0-9\-]+ -', line[1]):
                 solarSystem = line[1].split(" -")[0]
             elif re.match(r'[A-z0-9\-]+ [XVI]+', line[1]):
                 solarSystem = line[1].split(" ")[0]
 
-    # Get more information about ship types
+    # Get item type information from cache
+    typeIDs = list(shipCount.keys())
+    cachedTypes = InvType.objects.filter(typeID__in=typeIDs)
+
+    # Figure out what's missing
+    cachedIDs = set(cachedTypes.values_list("typeID", flat=True))
+    missingIDs = list(set(typeIDs)-cachedIDs)
+
+    print("TYPEIDS:", typeIDs, "CACHEDIDS:", cachedIDs, "MISSINGIDS:", missingIDs)
+
+    if missingIDs:
+        # Get missing IDs from ESI
+        newTypes = []
+        newGroups = []
+        for typeID in missingIDs:
+            try:
+                result = esiRequest('/universe/types/'+str(typeID)+'/')
+
+                # Create DB object for type
+                invType = InvType(typeID=typeID)
+                invType.typeName = result["name"]
+                invType.group_id = result["group_id"]
+
+                newTypes.append(invType)
+
+                # Check if we need to fetch group information too
+                if not InvGroup.objects.filter(groupID=invType.group_id).exists():
+                    result = esiRequest('/universe/groups/'+str(invType.group_id)+'/')
+
+                    invGroup = InvGroup(groupID=result["group_id"])
+                    invGroup.groupName = result["name"]
+                    invGroup.categoryID = result["category_id"]
+
+                    invGroup.save()
+                    
+            except Exception as e:
+                # To avoid malicious users making us spam ESI calls with invalid typeIDs we'll abort after the first error
+                print("Parse Error:", e)
+                return render(request, "landing.html", {"error": "Something's wrong with your dscan data: Error retrieving type info for typeID "+str(typeID)})
+
+        # Save new objects
+        InvType.objects.bulk_create(newTypes)
+
+        # Get a fresh queryset with the new types
+        cachedTypes = InvType.objects.filter(typeID__in=typeIDs)
+
+
     ships = []
     groupCount = {}
-    for ship in shipCount:
-        try:
-            invType = InvType.objects.get(typeID=ship)
-        except:
-            continue
-            return render(request, "landing.html", {"error": "Something's wrong with your dscan data."})
-        ships.append({"name": invType.typeName, "count": shipCount[ship], "group": invType.group_id, "category": invType.group.categoryID})
+    for ship in cachedTypes:
+        ships.append({"name": ship.typeName, "count": shipCount[ship.typeID], "group": ship.group_id, "category": ship.group.categoryID})
 
-        if not groupCount.get(invType.group_id, False):
-            groupCount[invType.group_id] = shipCount[ship]
+        if not groupCount.get(ship.group_id, False):
+            groupCount[ship.group_id] = shipCount[ship.typeID]
         else:
-            groupCount[invType.group_id] += shipCount[ship]
+            groupCount[ship.group_id] += shipCount[ship.typeID]
 
-    # Sum up groups
+    # Sum up groups and add group information
+    groupIDs = list(groupCount.keys())
+    invGroups = InvGroup.objects.filter(groupID__in=groupIDs)
     groups = []
-    for group in groupCount:
-        invGroup = InvGroup.objects.get(groupID=group)
-        groups.append({"id": invGroup.groupID, "name": invGroup.groupName, "count": groupCount[group], "category": invGroup.categoryID})
+    for invGroup in invGroups:
+        groups.append({"id": invGroup.groupID, "name": invGroup.groupName, "count": groupCount[invGroup.groupID], "category": invGroup.categoryID})
 
 
     # Sort by how many of each they are
