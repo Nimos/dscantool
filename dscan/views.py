@@ -62,8 +62,6 @@ def _parse_dscan(request, data):
     cachedIDs = set(cachedTypes.values_list("typeID", flat=True))
     missingIDs = list(set(typeIDs)-cachedIDs)
 
-    print("TYPEIDS:", typeIDs, "CACHEDIDS:", cachedIDs, "MISSINGIDS:", missingIDs)
-
     if missingIDs:
         # Get missing IDs from ESI
         newTypes = []
@@ -88,7 +86,7 @@ def _parse_dscan(request, data):
                     invGroup.categoryID = result["category_id"]
 
                     invGroup.save()
-                    
+
             except Exception as e:
                 # To avoid malicious users making us spam ESI calls with invalid typeIDs we'll abort after the first error
                 print("Parse Error:", e)
@@ -209,7 +207,6 @@ def _parse_local(request, data):
 
         n += 1
 
-    print("AFFILIATIONS: ", len(affiliations))
 
     # Count
     corps = {}
