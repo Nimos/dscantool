@@ -12,7 +12,9 @@
         <div class="row">
             <div class="col-sm-8">
                 {% if error %}
-                    <div class="alert alert-danger">{{error}}</div>
+                    {% autoescape off %}
+                    <div class="alert alert-danger">{{error|safe}}</div>
+                    {% endautoescape %}
                 {% endif %}
                 <span>Paste Anything</span>
                 <form method="POST" action="/parse">
