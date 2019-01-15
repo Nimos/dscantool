@@ -192,7 +192,7 @@ def _parse_dscan(request, scan_data):
     while Scan.objects.filter(token=token).exists():
         token = token_urlsafe(6)[:6]
 
-    savedScan = Scan(token=token, data=json.dumps(result), solarSystem=solarSystem, type=Scan.DSCAN, summaryText=summaryText, raw=scan_data.join("\n"))
+    savedScan = Scan(token=token, data=json.dumps(result), solarSystem=solarSystem, type=Scan.DSCAN, summaryText=summaryText, raw="\n".join(scan_data))
     savedScan.save()
 
 
@@ -344,7 +344,7 @@ def _parse_local(request, scan_data):
         token = token_urlsafe(6)[:6]
 
     # Save
-    savedScan = Scan(token=token, data=json.dumps(result), type=Scan.LOCALSCAN, summaryText=summaryText, raw=scan_data.join("\n"))
+    savedScan = Scan(token=token, data=json.dumps(result), type=Scan.LOCALSCAN, summaryText=summaryText, raw="\n".join(scan_data))
     savedScan.save()
 
 
