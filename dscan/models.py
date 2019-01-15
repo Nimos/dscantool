@@ -18,7 +18,7 @@ class Scan(models.Model):
     )
     type = models.IntegerField(choices=SCAN_TYPE_CHOICES)
 
-    raw = models.TextField(none=True)
+    raw = models.TextField(null=True)
 
 class Corporation(models.Model):
     corporationID = models.BigIntegerField()
