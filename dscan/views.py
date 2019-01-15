@@ -29,7 +29,7 @@ def parse(request):
         return _parse_local(request, data)
 
 
-def _parse_dscan(request, data):
+def _parse_dscan(request, scan_data):
 
     # Parse input and count ships
     shipCount = {}
@@ -38,7 +38,7 @@ def _parse_dscan(request, data):
     solarSystemIdentifierTypes = InvType.objects.filter(group_id__in=settings.SOLAR_SYSTEM_IDENTIFIERS).values_list("typeID", flat=True)
 
     # Parse Raw Data
-    for line in data:
+    for line in scan_data:
         line = line.split("\t")
         try:
             line[0] = int(line[0])
@@ -192,16 +192,16 @@ def _parse_dscan(request, data):
     while Scan.objects.filter(token=token).exists():
         token = token_urlsafe(6)[:6]
 
-    savedScan = Scan(token=token, data=json.dumps(result), solarSystem=solarSystem, type=Scan.DSCAN, summaryText=summaryText)
+    savedScan = Scan(token=token, data=json.dumps(result), solarSystem=solarSystem, type=Scan.DSCAN, summaryText=summaryText, raw=scan_data.join("\n"))
     savedScan.save()
 
 
     return redirect("dscan:show", token=token)
 
 # Parse a local list
-def _parse_local(request, data):
+def _parse_local(request, scan_data):
     # Convert to set to remove duplicates
-    data = list(set(data))
+    data = list(set(scan_data))
 
     # Remove empty lines
     data = [x for x in data if x != '']
@@ -344,7 +344,7 @@ def _parse_local(request, data):
         token = token_urlsafe(6)[:6]
 
     # Save
-    savedScan = Scan(token=token, data=json.dumps(result), type=Scan.LOCALSCAN, summaryText=summaryText)
+    savedScan = Scan(token=token, data=json.dumps(result), type=Scan.LOCALSCAN, summaryText=summaryText, raw=scan_data.join("\n"))
     savedScan.save()
 
 
