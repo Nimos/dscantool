@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from esi.models import InvType, InvGroup
 from django.conf import settings
 from secrets import token_urlsafe
 import re, json
 from dscan.models import Scan, Corporation, Alliance
 from esi.api import esiRequest
+from django.utils.html import escape
 
 
 # Create your views here.
@@ -365,3 +367,18 @@ def show(request, token):
         return render(request, "dscan.html", {"created": scan.created, "token": token, "solarSystem": scan.solarSystem, "data": json.loads(scan.data), "summaryText": scan.summaryText})
     elif scan.type == Scan.LOCALSCAN:
         return render(request, "localscan.html", {"created": scan.created, "token": token, "data": json.loads(scan.data), "summaryText": scan.summaryText})
+
+# Prettier error handling
+def error404(request, exception, template_name=""):
+    token = escape(request.path[1:])
+    return render(request, "landing.html", {"error": "<h5>Error 404 - Not Found</h5><br>Could not find a saved scan with the token \""+token+"\"."}, status=404)
+
+def error500(request, exception, template_name=""):
+    print("ERROR 500 on ", request.method, request.path)
+    print("Exception: ", exception)
+    return render(request, "landing.html", {"error": "<h5>Error 500 - Internal Server Error</h5>If this problem persists please contact me on Discord, send me a mail ingame or create an issue on Github.<br>Check the footer for contact information."}, status=500)
+
+def error400(request, exception, template_name=""):
+    print("ERROR 400 on ", request.method, request.path)
+    print("Exception: ", exception)
+    return render(request, "landing.html", {"error": "<h5>Error 400 - Bad Request</h5>If this problem persists please contact me on Discord, send me a mail ingame or create an issue on Github.<br>Check the footer for contact information."}, status=400)
