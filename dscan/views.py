@@ -35,6 +35,9 @@ def _parse_dscan(request, data):
     shipCount = {}
     solarSystem = None
 
+    solarSystemIdentifierTypes = InvType.objects.filter(group_id__in=settings.SOLAR_SYSTEM_IDENTIFIERS).values_list("typeID", flat=True)
+
+    # Parse Raw Data
     for line in data:
         line = line.split("\t")
         try:
@@ -46,13 +49,23 @@ def _parse_dscan(request, data):
             shipCount[line[0]] = 1
         else:
             shipCount[line[0]] += 1
+        
+        # Detect solar system
+        if not solarSystem and line[0] in solarSystemIdentifierTypes:
+            # Format for citadels and other structures
+            matches = re.match(r'([A-z0-9\- ]+) -', line[1])
+            if matches:
+                solarSystem = matches.group(1)
+            
+            # Format for planets, moons and belts
+            matches = re.match(r'([A-z0-9\- ]+) [XVI]+', line[1])
+            if matches:
+                solarSystem = matches.group(1)
 
-        # Detect solar system TODO: rework this mess
-        if not solarSystem and line[1] and line[0] in [11,12,13,14,15,2015,2063,2233,3799,35825,35832,35833,35835,45036,47513,1529,1531,4024,3872,3871,3796]:
-            if re.match(r'[A-z0-9\-]+ -', line[1]):
-                solarSystem = line[1].split(" -")[0]
-            elif re.match(r'[A-z0-9\-]+ [XVI]+', line[1]):
-                solarSystem = line[1].split(" ")[0]
+            # Format for Customs Offices
+            matches = re.match(r'Customs Office \(([A-z0-9\- ]+) [XVI]+\)', line[1])
+            if matches:
+                solarSystem = matches.group(1)
 
     # Get item type information from cache
     typeIDs = list(shipCount.keys())

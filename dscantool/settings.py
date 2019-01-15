@@ -142,4 +142,7 @@ DSCAN_CATEGORIES = {
 
 CATEGORY_ORDER = ["Capitals", "Ships", "Structures", "Misc."]
 
+# Planet: 7, Sun: 6, Citadels: 1657, Engineering Complex: 1404, Refinery: 1406, Poco: 1025, Station: 15, Moon: 8, Asteroid Belt: 9
+SOLAR_SYSTEM_IDENTIFIERS = [6, 7, 8, 9, 15, 1657, 1404, 1406, 1025]
+
 ESI_BASE = 'https://esi.evetech.net/latest'
