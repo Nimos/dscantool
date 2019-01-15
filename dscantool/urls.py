@@ -19,3 +19,7 @@ from django.conf.urls import include, url
 urlpatterns = [
     url(r'^', include('dscan.urls', namespace='dscan')),
 ]
+
+handler400 = 'dscan.views.error400'
+handler404 = 'dscan.views.error404'
+handler500 = 'dscan.views.error500'
