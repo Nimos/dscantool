@@ -211,3 +211,32 @@ td.name {
     background-color: rgba(0,0,0,0.0);
     text-shadow: 2px 2px 0 black;
 }
+
+.external-icon {
+    position: relative;
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    margin-left: 2px;
+}
+
+.external-icon:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 17px;
+    width: 17px;
+    margin-top: 4px;
+    background-size: contain;
+}
+
+.external-icon.dotlan:after {
+    background: url(/static/dotlan.png) no-repeat;
+    background-size: contain;
+}
+
+.external-icon.zkb:after {
+    background: url(//zkillboard.com/img/wreck.png) no-repeat;
+    background-size: contain;
+}

@@ -9,20 +9,32 @@
 {% endblock meta %}
 
 {% block title %}
-    DScan {{token}} - Nimos' Intel Tools
+    D-Scan {{token}} - Nimos' Intel Tools
 {% endblock title %}
 
 {% block content %}
     <div class="container">
         <div class="card">
             <div class="navbar navbar-inverse">
-                <span><a href="/">Home</a> &gt; Directional Scan <small>[{{token}}] / Created {{created|date:"M d, Y - H:i:s"}}</small></span>
-                <span>Solar System: {% if solarSystem %}{{solarSystem}}{%else%}Unknown{%endif%}</span>
+                <span> 
+                    <a href="/">Home</a> &gt; Directional Scan 
+                    <small>[{{token}}] / Created {{created|date:"M d, Y - H:i:s"}} ({{ created|timesince }} ago)</small>
+                </span>
+                <span>
+                    Solar System: 
+                    {% if solarSystem %}
+                        {{solarSystem}} 
+                        <a target="_blank" href="https://evemaps.dotlan.net/system/{{solarSystem}}/" class="external-icon dotlan"></a> 
+                        <a target="_blank" href="https://zkillboard.com/system/{{solarSystem}}/" class="external-icon zkb"></a>
+                    {%else%}
+                        Unknown
+                    {%endif%}
+                </span>
             </div>
             <div class="container-fluid" style="padding: 0">
                 {% for category, ships, groups in data %}
                 <div class="row no-gutters">
-                    <div class="darkbox box-shadow result-container col-sm-8">
+                    <div class="darkbox box-shadow result-container col-lg-8">
                         <div class="navbar table-header">
                             {{category}} <small>({{ships.1}} total)</small>
                         </div>
@@ -34,7 +46,7 @@
                             {% endfor %}
                         </table>
                     </div>
-                    <div class="darkbox box-shadow result-container col-sm-4">
+                    <div class="darkbox box-shadow result-container col-lg-4">
                         <div class="navbar table-header">
                             &nbsp;
                         </div>
