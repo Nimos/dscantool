@@ -26,9 +26,21 @@
         {% endblock content %}
 
 
-        <div class="footer text-shadow">
-            <div class="container">
-                <span>Brought to you by Nimos Endashi • Discord: Nimos#4951 <br> <a href="/about/">All Eve Related Materials are property of CCP Games</a> • <a href="/about/">Released under AGPL3</a> • <a href="//github.com/nimos/dscantool">Github</span>
+        <div class="footer text-shadow container-fluid">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                    <span>Brought to you by Nimos Endashi • Discord: Nimos#4951 <br> 
+                    <a href="/about/">All Eve Related Materials are property of CCP Games</a> • <a href="/about/">Released under AGPL3</a> • <a href="//github.com/nimos/dscantool">Github</a></span>
+                </div>
+                <div class="col stats">
+                    <div>
+                        <ul>
+                            <li>L: {{stats.l}} / D: {{stats.d}}</li>
+                            <li>T: {{stats.total}} / 24h: {{stats.day}}</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
