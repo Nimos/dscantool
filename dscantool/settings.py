@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'dscantool.preprocessors.template_settings',
+                'dscan.preprocessors.template_stats'
             ],
         },
     },
