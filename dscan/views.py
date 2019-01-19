@@ -373,12 +373,12 @@ def error404(request, exception, template_name=""):
     token = escape(request.path[1:])
     return render(request, "landing.html", {"error": "<h5>Error 404 - Not Found</h5><br>Could not find a saved scan with the token \""+token+"\"."}, status=404)
 
-def error500(request, exception, template_name=""):
+def error500(request, exception=None, template_name=""):
     print("ERROR 500 on ", request.method, request.path)
     print("Exception: ", exception)
     return render(request, "landing.html", {"error": "<h5>Error 500 - Internal Server Error</h5>If this problem persists please contact me on Discord, send me a mail ingame or create an issue on Github.<br>Check the footer for contact information."}, status=500)
 
-def error400(request, exception, template_name=""):
+def error400(request, exception=None, template_name=""):
     print("ERROR 400 on ", request.method, request.path)
     print("Exception: ", exception)
     return render(request, "landing.html", {"error": "<h5>Error 400 - Bad Request</h5>If this problem persists please contact me on Discord, send me a mail ingame or create an issue on Github.<br>Check the footer for contact information."}, status=400)

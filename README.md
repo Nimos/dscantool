@@ -11,7 +11,7 @@ I made it because my previous favorite Intel Tool dscan.me shut down and I wante
 4. Install database with `python3 manage.py migrate` 
 
 ## Optional: Import Type information from SDE
-Note: Nimos' Intel Tool pulls all missing type information from ESI when needed. When starting out with an empty cache that can make the first scans take a couple of seconds to parse, but once a ship type is cached it won't be requested again. You can import all ship type information from SDE to "seed" the cache, but doing so is optional and the script is no longer maintained.
+Note: Nimos' Intel Tool pulls all missing type information from ESI when needed. When starting out with an empty cache that can make the first scans take a couple of seconds to parse, but once a ship type is cached it won't be requested again. You can import all ship type information from SDE to "seed" the cache, but doing so is optional and the script is no longer maintained. Use at your own discretion or feel free to import the SDE another way.
 
 1. Get the EVE Static Data Export (SDE) from https://developers.eveonline.com/resource/resources
 2. Extract `groupIDs.yaml` and `typeIDs.yaml` from the SDE into eve_data
@@ -22,3 +22,5 @@ Note: Nimos' Intel Tool pulls all missing type information from ESI when needed.
 This is just a little 2-day project, so don't expect the sleekest code.
 
 This tool relies heavily on caching. The first few scans will be slow until the database has seen most ship types and corporations, after a couple of scans performance should increase significantly. The up-side is that you never have to update the static data like you have to for many other EVE tools.
+
+This tool has been tested with MySQL and SQLite. Feel free to use other database backends, but they might require minor fixes. When using MySQL, make sure your tables (specifically the dscan_scan and esi_invtype) use the 'utf8mb4' encoding. Otherwise it will error out trying to save certain characters.
