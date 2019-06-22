@@ -173,16 +173,16 @@ def _parse_dscan(request, scan_data):
 
 
     # Prepare summary for meta tags
-    othersCount = 0
-    for ship in summary[3:]:
-        othersCount += ship["count"]
+    totalCount = 0
+    for ship in summary:
+        totalCount += ship["count"]
 
     summaryText = ""
     for ship in summary[0:3]:
         summaryText += str(ship["count"]) + " " + ship["name"] + "\n"
     
-    if othersCount > 0:
-        summaryText += "("+str(othersCount)+" more)"
+    if totalCount > 0:
+        summaryText += "("+str(totalCount)+" total)"
 
     # Prepare data for template
     result = []
