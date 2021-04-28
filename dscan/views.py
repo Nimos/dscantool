@@ -55,7 +55,7 @@ def _parse_dscan(request, scan_data):
         # Detect solar system
         if not solarSystem and line[0] in solarSystemIdentifierTypes:
             # Format for citadels and other structures
-            matches = re.match(r'([A-z0-9\- ]+) -', line[1])
+            matches = re.match(r'([A-z0-9\- ]+?) -', line[1])
             if matches:
                 solarSystem = matches.group(1)
             
