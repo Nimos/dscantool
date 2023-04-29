@@ -1,6 +1,6 @@
 ### BUILDER
 
-FROM python:3.7-alpine as builder
+FROM python:3.9-alpine as builder
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -22,7 +22,7 @@ RUN set -eux; \
 
 ### FINAL
 
-FROM python:3.7-alpine
+FROM python:3.9-alpine
 
 ENV DSCAN_HOME_DIR ${DSCAN_HOME_DIR:-/dscantool}
 ENV DSCAN_WORK_DIR $DSCAN_HOME_DIR/app

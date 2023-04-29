@@ -4,4 +4,5 @@
 .gitignore
 Dockerfile
 README.md
+__pycache__
 docker-compose.yml

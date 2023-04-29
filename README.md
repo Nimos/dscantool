@@ -25,19 +25,25 @@ Note: Nimos' Intel Tool pulls all missing type information from ESI when needed.
 
 ### Environment Variables
 
-| Variable            | Default                                            | Dscription |
-|---------------------|----------------------------------------------------|------------|
-|`DSCAN_SECRET_KEY`   |`&f8lk5k-b$^)-sdfij8gu9df7g9aa2zagdfh8iooijioukhrs_`|A secret key for a particular Django installation.|
-|`DSCAN_ALLOWED_HOST` |`dscan.nimos.ws`                                    |String representing the host/domain name that this Django site can serve.|
-|`DSCAN_DB_ENGINE`    |`django.db.backends.postgresql`                     |The database backend to use. The built-in database backends are: `django.db.backends.postgresql`, `django.db.backends.mysql`, `django.db.backends.sqlite3`, `django.db.backends.oracle`|
-|`DSCAN_DB_NAME`      |`dscantool`                                         |The name of the database to use.|
-|`DSCAN_DB_USER`      |`dscantool`                                         |The username to use when connecting to the database.|
-|`DSCAN_DB_PASSWORD`  |`dscantool`                                         |The password to use when connecting to the database.|
-|`DSCAN_DB_HOST`      |`127.0.0.1`                                         |Which host to use when connecting to the database.|
-|`DSCAN_DB_PORT`      |`5432`                                              |The port to use when connecting to the database.|
-|`DSCAN_LANGUAGE_CODE`|`en-us`                                             |A string representing the language code for this installation.|
-|`DSCAN_STATIC_URL`   |`/static/`                                          |URL to use when referring to static files located in `DSCAN_STATIC_ROOT`.|
-|`DSCAN_STATIC_ROOT`  |`/dscantool/static/`                                |The absolute path to the directory where collectstatic will collect static files for deployment.|
+| Variable             | Default                                               | Dscription |
+|----------------------|-------------------------------------------------------|------------|
+|`DSCAN_SECRET_KEY`    |`&f8lk5k-b$^)-sdfij8gu9df7g9aa2zagdfh8iooijioukhrs_`   |A secret key for a particular Django installation.|
+|`DSCAN_ALLOWED_HOST`  |`dscan.nimos.ws`                                       |String representing the host/domain name that this Django site can serve.|
+|`DSCAN_DB_ENGINE`     |`django.db.backends.postgresql`                        |The database backend to use. The built-in database backends are: `django.db.backends.postgresql`, `django.db.backends.mysql`, `django.db.backends.sqlite3`, `django.db.backends.oracle`|
+|`DSCAN_DB_NAME`       |`dscantool`                                            |The name of the database to use.|
+|`DSCAN_DB_USER`       |`dscantool`                                            |The username to use when connecting to the database.|
+|`DSCAN_DB_PASSWORD`   |`dscantool`                                            |The password to use when connecting to the database.|
+|`DSCAN_DB_HOST`       |`127.0.0.1`                                            |Which host to use when connecting to the database.|
+|`DSCAN_DB_PORT`       |`5432`                                                 |The port to use when connecting to the database.|
+|`DSCAN_LANGUAGE_CODE` |`en-us`                                                |A string representing the language code for this installation.|
+|`DSCAN_STATIC_URL`    |`/static/`                                             |URL to use when referring to static files located in `DSCAN_STATIC_ROOT`.|
+|`DSCAN_STATIC_ROOT`   |`/dscantool/static/`                                   |The absolute path to the directory where collectstatic will collect static files for deployment.|
+|`DSCAN_SITE_NAME`     |`Nimos' Intel Tools`                                   |The site name.|
+|`DSCAN_EVE_IMAGE_URL` |`https://image.eveonline.com`                          |Link to EVE Online image server.|
+|`DSCAN_REPOSITORY_URL`|`https://github.com/nimos/dscantool`                   |Link to development repository.|
+|`DSCAN_ZKILLBOARD_URL`|`https://zkillboard.com`                               |Link to zKillboard.|
+|`DSCAN_DOTLAN_URL`    |`https://evemaps.dotlan.net`                           |Link to Dotlan.|
+|`DSCAN_FEEDBACK`      |`Brought to you by Nimos Endashi • Discord: Nimos#4951`|Feedback information.|
 
 ## Notes
 

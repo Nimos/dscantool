@@ -15,6 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# The site name
+DSCAN_SITE_NAME = os.environ.get('DSCAN_SITE_NAME', "Nimos' Intel Tools")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -126,7 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = os.environ.get('DSCAN_STATIC_URL', '/static/')
-  
+
 STATIC_ROOT = os.environ.get('DSCAN_STATIC_ROOT', '/dscantool/static/');
 
 # Categories to sort DScans
@@ -159,3 +161,15 @@ CATEGORY_ORDER = ["Capitals", "Ships", "Structures", "Misc."]
 SOLAR_SYSTEM_IDENTIFIERS = [6, 7, 8, 9, 15, 1657, 1404, 1406, 1025]
 
 ESI_BASE = 'https://esi.evetech.net/latest'
+
+# EVE Online Image Server
+DSCAN_EVE_IMAGE_URL = os.environ.get('DSCAN_EVE_IMAGE_URL', 'https://image.eveonline.com')
+
+# Link to the dscantool development repository
+DSCAN_REPOSITORY_URL = os.environ.get('DSCAN_REPOSITORY_URL', 'https://github.com/nimos/dscantool')
+
+DSCAN_ZKILLBOARD_URL = os.environ.get('DSCAN_ZKILLBOARD_URL', 'https://zkillboard.com')
+
+DSCAN_DOTLAN_URL = os.environ.get('DSCAN_DOTLAN_URL', 'https://evemaps.dotlan.net')
+
+DSCAN_FEEDBACK = os.environ.get('DSCAN_FEEDBACK', 'Brought to you by Nimos Endashi • Discord: Nimos#4951')

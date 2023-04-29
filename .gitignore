@@ -1,4 +1,5 @@
-db.sqlite3
 *.pyc
-eve_data/*.yaml
 .env.*
+__pycache__
+db.sqlite3
+eve_data/*.yaml
