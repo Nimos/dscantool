@@ -19,11 +19,11 @@ Note: Nimos' Intel Tool pulls all missing type information from ESI when needed.
 
 1. Get the EVE Static Data Export (SDE) from https://developers.eveonline.com/resource/resources
 2. Extract `groupIDs.yaml` and `typeIDs.yaml` from the SDE into `eve_data`
-3. Run `python3 manage.py import_sde`
+3. Run `python manage.py import_sde`
 
-# Docker installation
+## Docker installation
 
-## Environment Variables
+### Environment Variables
 
 | Variable            | Default                                            | Dscription |
 |---------------------|----------------------------------------------------|------------|

@@ -70,7 +70,7 @@ RUN set -eux; \
 
 # Install dscantool
 RUN \
-	set -eux; \
+    set -eux; \
     mkdir -p $DSCAN_WORK_DIR; \
     mkdir -p $DSCAN_STATIC_DIR; \
     addgroup -g $DSCAN_GID $DSCAN_GROUP; \
@@ -82,7 +82,7 @@ RUN \
 
 # Get the EVE Static Data Export (SDE)
 RUN \
-	set -eux; \
+    set -eux; \
     wget https://eve-static-data-export.s3-eu-west-1.amazonaws.com/tranquility/sde.zip; \
     unzip sde.zip; \
     for f in `find sde -iname "groupIDs.yaml"`; do cp $f ./eve_data/; done; \
