@@ -22,8 +22,8 @@ while ! nc -z $DSCAN_DB_HOST $DSCAN_DB_PORT; do
 done
 echo "Info: Postgresql started."
 
-python manage.py makemigrations
-python manage.py migrate
-python manage.py collectstatic --noinput
-python manage.py import_sde &
+gosu $DSCAN_USER python manage.py makemigrations
+gosu $DSCAN_USER python manage.py migrate
+python manage.py collectstatic --noinput &
+gosu $DSCAN_USER python manage.py import_sde &
 gosu $DSCAN_USER python manage.py runserver 0.0.0.0:$DSCAN_PORT

@@ -23,20 +23,21 @@
         {% endblock content %}
 
 
-        <div style="position: relative;" class="footer text-shadow container-fluid">
+        <div class="text-shadow container-fluid">
             <div class="row">
-                <div class="col"></div>
-                <div class="col">
-                    <span>{{feedback}}<br>
-                    <a href="/about/">All Eve Related Materials are property of CCP Games</a> • <a href="/about/">Released under AGPL3</a> • <a href="{{repository_url}}">Github</a></span>
-                </div>
-                <div class="col stats">
+                <div class="col order-12 stats">
                     <div>
                         <ul>
                             <li>L: {{stats.l}} / D: {{stats.d}}</li>
                             <li>T: {{stats.total}} / 24h: {{stats.day}}</li>
                         </ul>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <span>{{feedback}}<br>
+                    <a href="/about/">All Eve Related Materials are property of CCP Games</a> • <a href="/about/">Released under AGPL3</a> • <a href="{{repository_url}}">Github</a></span>
                 </div>
             </div>
         </div>
