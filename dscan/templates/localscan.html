@@ -3,13 +3,12 @@
 {% block meta %}
     <meta property="og:title" content="Local scan taken at {{created|date:"H:i:s"}}" />
     <meta property="og:url" content="{{ request.get_full_path }}" />
-    <meta property="og:description" 
-      content="{{summaryText}}" />
+    <meta property="og:description" content="{{summaryText}}" />
     <meta property="og:site_name" content="Local Scan" />
 {% endblock meta %}
 
 {% block title %}
-    Local Scan {{token}} - Nimos' Intel Tools
+    Local Scan {{token}} | {{site_name}}
 {% endblock title %}
 
 {% block content %}
@@ -29,7 +28,7 @@
                                 {% for alliance in data.alliances %}
                                 <tr class="ship" data-alliance="{{alliance.id}}">
                                     <td class="ticker"><small>[{{alliance.ticker}}]</small></td>
-                                    <td class="" style="background-image: url('//image.eveonline.com/Alliance/{{alliance.id}}_64.png')"> {{alliance.name}}</td>
+                                    <td class="" style="background-image: url('{{eve_image_url}}/Alliance/{{alliance.id}}_64.png')"> {{alliance.name}}</td>
                                     <td class="number">{{alliance.count}}</td>
                                 </tr>
                                 {% endfor %}
@@ -46,11 +45,11 @@
                                     {% if corp.alliance == -1 %}
                                         <tr class="group" data-alliance="{{corp.alliance}}" data-corporationID="{{corp.id}}">
                                             <td class="ticker"><small>[{{corp.ticker}}]</small></td>
-                                            <td class="" style="background-image: url('//image.eveonline.com/Corporation/{{corp.id}}_64.png')">{{corp.name}}</td>
+                                            <td class="" style="background-image: url('{{eve_image_url}}/Corporation/{{corp.id}}_64.png')">{{corp.name}}</td>
                                             <td class="number">{{corp.count}}</td>
                                         </tr>
                                     {% endif %}
-                                {% endfor %}        
+                                {% endfor %}
                             </table>
                         </div>
                     </div>
@@ -64,11 +63,11 @@
                                     {% if corp.alliance != -1 %}
                                         <tr class="group" data-alliance="{{corp.alliance}}" data-corporationID="{{corp.id}}">
                                             <td class="ticker"><small>[{{corp.ticker}}]</small></td>
-                                            <td class="" style="background-image: url('//image.eveonline.com/Corporation/{{corp.id}}_64.png')">{{corp.name}}</td>
+                                            <td class="" style="background-image: url('{{eve_image_url}}/Corporation/{{corp.id}}_64.png')">{{corp.name}}</td>
                                             <td class="number">{{corp.count}}</td>
                                         </tr>
-                                    {% endif %}     
-                                {% endfor %}   
+                                    {% endif %}
+                                {% endfor %}
                             </table>
                         </div>
                     </div>

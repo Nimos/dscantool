@@ -3,31 +3,28 @@
 {% block meta %}
     <meta property="og:title" content="Scan{% if solarSystem %} of {{solarSystem}} at {%else%} taken at {%endif%}{{created|date:"H:i:s"}}" />
     <meta property="og:url" content="{{request.get_full_path}}" />
-    <meta property="og:description" 
-      content="{{summaryText}}" />
-    <meta property="og:site_name" content="Directional Scan" />
+    <meta property="og:description" content="{{summaryText}}" />
+    <meta property="og:site_name" content="Directional Scan | {{site_name}}" />
 {% endblock meta %}
 
 {% block title %}
-    D-Scan {{token}} - Nimos' Intel Tools
+    D-Scan {{token}} | {{site_name}}
 {% endblock title %}
 
 {% block content %}
     <div class="container">
         <div class="card">
             <div class="navbar navbar-inverse">
-                <span> 
-                    <a href="/">Home</a> &gt; Directional Scan 
+                <span>
+                    <a href="/">Home</a> &gt; Directional Scan
                     <small>[{{token}}] / Created {{created|date:"M d, Y - H:i:s"}} ({{ created|timesince }} ago)</small>
                 </span>
                 <span>
-                    Solar System: 
                     {% if solarSystem %}
-                        {{solarSystem}} 
-                        <a target="_blank" href="https://evemaps.dotlan.net/system/{{solarSystem}}/" class="external-icon dotlan"></a> 
-                        <a target="_blank" href="https://zkillboard.com/system/{{solarSystem}}/" class="external-icon zkb"></a>
-                    {%else%}
-                        Unknown
+                        Solar System:
+                        {{solarSystem}}
+                        <a target="_blank" href="{{dotlan_url}}/system/{{solarSystem}}/" class="external-icon dotlan"></a>
+                        <a target="_blank" href="{{zkillboard_url}}/system/{{solarSystem}}/" class="external-icon zkb"></a>
                     {%endif%}
                 </span>
             </div>
@@ -55,7 +52,7 @@
                                 <tr class="group" data-group="{{group.id}}">
                                     <td class="number">{{group.count}}</td><td class="name">{{group.name}}</td>
                                 </tr>
-                            {% endfor %}        
+                            {% endfor %}
                         </table>
                     </div>
                 </div>

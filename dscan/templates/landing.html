@@ -5,12 +5,11 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1 class="text-shadow">Nimos' Intel Tool</h1>
+                <h1 class="text-shadow">{{site_name}}</h1>
             </div>
         </div>
-        
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 {% if error %}
                     {% autoescape off %}
                     <div class="alert alert-danger">{{error|safe}}</div>
@@ -19,11 +18,11 @@
                 <span>Paste Anything</span>
                 <form method="POST" action="/parse">
                     {% csrf_token %}
-                    <textarea name="data" class="textarea-dscan{% if error %} textarea-danger{% endif %}"></textarea>
+                    <textarea name="data" class="textarea-dscan{% if error %} textarea-danger{% endif %}" placeholder="In Game: Ctrl+A, Ctrl+C&#10;Here: Ctrl+V"></textarea>
                     <button type="submit" class="btn btn-primary btn-lg submit-button">Scan</button>
                 </form>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <h4 class="text-shadow">What's this?</h4>
                 <p class="text-shadow">This is an intel tool. There's many like it, but this one is mine and it has a dark theme.</p>
                 <p class="text-shadow">Currently it supports parsing of both local scans and dscans.</p>

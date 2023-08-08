@@ -44,21 +44,21 @@ def _parse_dscan(request, scan_data):
         line = line.split("\t")
         try:
             line[0] = int(line[0])
-        except: 
+        except:
             continue
 
         if not shipCount.get(line[0], False):
             shipCount[line[0]] = 1
         else:
             shipCount[line[0]] += 1
-        
+
         # Detect solar system
         if not solarSystem and line[0] in solarSystemIdentifierTypes:
             # Format for citadels and other structures
             matches = re.match(r'([A-z0-9\- ]+?) -', line[1])
             if matches:
                 solarSystem = matches.group(1)
-            
+
             # Format for planets, moons and belts
             matches = re.match(r'([A-z0-9\- ]+) [XVI]+', line[1])
             if matches:
@@ -142,11 +142,11 @@ def _parse_dscan(request, scan_data):
 
     for ship in ships:
         default = True
-        for category in settings.DSCAN_CATEGORIES:           
+        for category in settings.DSCAN_CATEGORIES:
             if ship["group"] in settings.DSCAN_CATEGORIES[category]["groups"] or ship["category"] in settings.DSCAN_CATEGORIES[category]["categories"]:
                 if not categories["ships"].get(category, False):
                     categories["ships"][category] = [[], 0]
-                categories["ships"][category][0].append(ship) 
+                categories["ships"][category][0].append(ship)
                 categories["ships"][category][1] += ship["count"]
                 default = False
         if default:
@@ -160,11 +160,11 @@ def _parse_dscan(request, scan_data):
 
     for group in groups:
         default = True
-        for category in settings.DSCAN_CATEGORIES:           
+        for category in settings.DSCAN_CATEGORIES:
             if group["id"] in settings.DSCAN_CATEGORIES[category]["groups"] or group["category"] in settings.DSCAN_CATEGORIES[category]["categories"]:
                 if not categories["groups"].get(category, False):
                     categories["groups"][category] = []
-                categories["groups"][category].append(group) 
+                categories["groups"][category].append(group)
                 default = False
         if default:
             if not categories["groups"].get("Ships", False):
@@ -180,7 +180,7 @@ def _parse_dscan(request, scan_data):
     summaryText = ""
     for ship in summary[0:3]:
         summaryText += str(ship["count"]) + " " + ship["name"] + "\n"
-    
+
     if totalCount > 0:
         summaryText += "("+str(totalCount)+" total)"
 
@@ -228,7 +228,7 @@ def _parse_local(request, scan_data):
     alliances = {}
     for character in affiliations:
         character["alliance_id"] = character.get("alliance_id", -1)
-        
+
         try:
             corps[character["corporation_id"]]["count"] += 1
         except:
@@ -243,7 +243,7 @@ def _parse_local(request, scan_data):
 
     # Get names and tickers
     result = {"corps": [], "alliances": []}
-    
+
     # Get cached names from DB
     corpIDs = list(corps.keys())
     cachedCorps = Corporation.objects.filter(corporationID__in=corpIDs)
@@ -282,7 +282,7 @@ def _parse_local(request, scan_data):
 
 
     # Same thing for alliances
-    
+
     # Get cached alliances from DB
     allianceIDs = list(alliances.keys())
     cachedAlliances = Alliance.objects.filter(allianceID__in=allianceIDs)
@@ -336,7 +336,7 @@ def _parse_local(request, scan_data):
     summaryText = ""
     for alliance in result["alliances"][0:3]:
         summaryText += str(alliance["count"]) + " " + alliance["name"] + "\n"
-    
+
     if othersCount > 0:
         summaryText += "("+str(othersCount)+" more)"
 
@@ -371,7 +371,7 @@ def show(request, token):
 # Prettier error handling
 def error404(request, exception, template_name=""):
     token = escape(request.path[1:])
-    return render(request, "landing.html", {"error": "<h5>Error 404 - Not Found</h5><br>Could not find a saved scan with the token \""+token+"\"."}, status=404)
+    return render(request, "landing.html", {"error": "<h5>Error404 - Not Found</h5><br>Could not find a saved scan with the token \""+token+"\"."}, status=404)
 
 def error500(request, exception=None, template_name=""):
     print("ERROR 500 on ", request.method, request.path)

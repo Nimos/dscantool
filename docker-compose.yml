@@ -1,0 +1,55 @@
+version: '3.9'
+
+#
+# !!! ATTENTION !!!
+# It doesn't work.
+# Use it as an example.
+#
+
+networks:
+  front:
+  dscan:
+
+services:
+
+  nginx:
+    image: "nginx:alpine"
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./dscan/dscantool/static:/dscantool/static
+    ports:
+      - 80:80
+    networks:
+      - front
+
+  dscan:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: dscan
+    restart: always
+    environment:
+      - DSCAN_ALLOWED_HOST=dscan.localdomain
+      - DSCAN_DB_HOST=dscan_postgres
+    volumes:
+      - ./dscan/dscantool/static:/dscantool/static
+    depends_on:
+      - dscan_postgres
+    networks:
+      - front
+      - dscan
+    logging: *default-logging
+
+  dscan_postgres:
+    image: "postgres:15-alpine"
+    container_name: dscan_postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=dscantool
+      - POSTGRES_USER=dscantool
+      - POSTGRES_PASSWORD=dscantool
+    networks:
+      - dscan
+    volumes:
+      - ./dscan/postgres/data:/var/lib/postgresql/data
